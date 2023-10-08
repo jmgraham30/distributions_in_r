@@ -1,0 +1,84 @@
+---
+title: "Distributions in R"
+author: "JMG"
+format: html
+---
+
+```{r}
+#| include: false
+#| message: false
+
+library(tidyverse)
+library(ggfortify)
+library(ggblanket)
+library(ggformula)
+library(ggmosaic)
+library(ggthemes)
+library(mosaic)
+library(latex2exp)
+library(kableExtra)
+
+theme_set(theme_minimal(base_size = 12))
+```
+
+## Working with Binomial Distributions
+
+```{r}
+plotDist("binom",params = list(size = 10, prob = 0.5), kind = "density")
+```
+
+
+```{r}
+plotDist("binom",params = list(size = 10, prob = 0.5), kind = "h")
+```
+
+```{r}
+plotDist("binom",params = list(size = 10, prob = 0.5), kind = "cdf")
+```
+
+
+```{r}
+data.frame(heads = 0:10, prob = dbinom(x = 0:10, size = 10, prob = 0.5)) %>%
+  mutate(Heads = ifelse(heads == 2, "2", "other")) %>%
+ggplot(aes(x = factor(heads), y = prob, fill = Heads)) +
+  geom_col() +
+  geom_text(
+    aes(label = round(prob,2), y = prob + 0.01),
+    position = position_dodge(0.9),
+    size = 3,
+    vjust = 0
+  ) +
+  scale_fill_colorblind() +
+  labs(title = "Probability of X = 2 heads out of ten.",
+       subtitle = "b(10, .5)",
+       x = "Numer of heads out of ten tosses (x)",
+       y = "probability") 
+```
+
+
+
+## Working with Normal Distributions
+
+
+```{r}
+ggdistribution(dnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
+```
+
+```{r}
+ggdistribution(pnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
+```
+
+```{r}
+p <- ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 0.5, colour = '#E69F00')
+p <- ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 3.0, colour = '#009E73', p = p)
+ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 0.0, sd = 1, colour = '#CC79A7', p = p)
+```
+
+```{r}
+p <- ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 0.5, colour = '#E69F00')
+p <- ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 3.0, colour = '#009E73', p = p)
+ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 0.0, sd = 1, colour = '#CC79A7', p = p)
+```
+
+
+
