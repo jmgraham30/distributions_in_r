@@ -28,13 +28,17 @@ plotDist("binom",params = list(size = 10, prob = 0.5), kind = "density")
 ```
 
 
+
 ```{r}
 plotDist("binom",params = list(size = 10, prob = 0.5), kind = "h")
 ```
 
+
+
 ```{r}
 plotDist("binom",params = list(size = 10, prob = 0.5), kind = "cdf")
 ```
+
 
 
 ```{r}
@@ -64,9 +68,13 @@ ggplot(aes(x = factor(heads), y = prob, fill = Heads)) +
 ggdistribution(dnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
 ```
 
+
+
 ```{r}
 ggdistribution(pnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
 ```
+
+
 
 ```{r}
 p <- ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 0.5, colour = '#E69F00')
@@ -74,11 +82,27 @@ p <- ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 3.0, colour = '#009
 ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 0.0, sd = 1, colour = '#CC79A7', p = p)
 ```
 
+
+
 ```{r}
 p <- ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 0.5, colour = '#E69F00')
 p <- ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 3.0, colour = '#009E73', p = p)
 ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 0.0, sd = 1, colour = '#CC79A7', p = p)
 ```
 
+
+
+```{r}
+dnorm_limit_mid <- function(x) {
+    y <- dnorm(x)
+    y[x <= -0.5 | x >= 1.2] <- NA
+    return(y)
+}
+ggplot(data.frame(x = c(-3, 3)), aes(x = x)) +
+  stat_function(fun = dnorm_limit_mid, geom = "area", fill = "blue", alpha = 0.2) +
+  stat_function(fun = dnorm) + geom_vline(xintercept = -0.5,linetype="dashed",linewidth=1) + geom_vline(xintercept = 1.2,linetype="dashed",linewidth=1) +   annotate(geom="text",x=-0.8,y=0.0,label="z=-0.5",size=6) + 
+annotate(geom="text",x=1.5,y=0.0,label="z=1.2",size=6) + 
+  annotate(geom="text",x=0.3,y=0.15,label="area=?",size=6) + theme_minimal(base_size = 22) 
+```
 
 
