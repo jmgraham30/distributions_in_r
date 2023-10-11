@@ -153,9 +153,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 4 6 7 4 5 7 6 6 4 6</code></pre>
+<pre><code> [1] 4 8 6 5 6 4 5 6 6 6</code></pre>
 </div>
 </div>
+<p><strong>Exercise:</strong> Find the probability of getting exactly 3 heads out of 10 tosses of a coin where the probability of landing heads is 0.4. Find the probability of getting 3 or fewer heads out of 10 tosses of a coin where the probability of landing heads is 0.4. Find the number of heads you need to get in order to have a probability of 0.05 or less of getting that many heads out of 10 tosses of a coin where the probability of landing heads is 0.4. Simulate 10 tosses of a coin where the probability of landing heads is 0.4.</p>
 <section id="plotting-binomial-distributions" class="level3">
 <h3 class="anchored" data-anchor-id="plotting-binomial-distributions">Plotting Binomial Distributions</h3>
 <p>The <code>plotDist</code> function from the <code>mosaic</code> package can be used to plot the PMF and CDF of a binomial distribution. The first argument is the name of the distribution, the second is a list of parameters, and the third is the kind of plot to produce. The default is a PMF plot.</p>
@@ -200,6 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="distributions_in_r_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p><strong>Exercise:</strong> Plot the PMF and CDF of a binomial distribution with 10 trials and a probability of success of 0.4.</p>
 </section>
 </section>
 <section id="working-with-normal-distributions" class="level2">
@@ -234,11 +236,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.4661502  0.7174736  2.1531378 -0.7464296  0.7781588 -0.1194745
- [7]  2.5906963 -0.4213402  0.3992962  1.3184012</code></pre>
+<pre><code> [1]  1.08615082 -0.02977806  0.94445186 -1.55137900 -0.52961724  0.13247976
+ [7] -0.05945010 -0.01464395 -0.38006822 -0.97342847</code></pre>
 </div>
 </div>
 <p>Note that for continuous distributions like normal distributions, it doesn’t make sense to compute probabilities of the form <span class="math inline">\(P(X = x)\)</span>. Instead, we compute probabilities of the form <span class="math inline">\(P(X \leq x)\)</span>, <span class="math inline">\(P(X \geq x)\)</span>, or even <span class="math inline">\(P(a \leq X \leq b)\)</span>. Thus, the <code>dnorm</code> function is not used as often as the <code>pnorm</code> function when working with normal distributions.</p>
+<p><strong>Exercise:</strong> Find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1. Find the value you need to get in order to have a probability of 0.05 or less of getting that value from a normal distribution with mean 0 and standard deviation 1. Simulate 10 values from a normal distribution with mean 0 and standard deviation 1.</p>
 <section id="plotting-normal-distributions" class="level3">
 <h3 class="anchored" data-anchor-id="plotting-normal-distributions">Plotting Normal Distributions</h3>
 <p>For plotting continuous distributions like normal distribution, the <code>ggdistribution</code> from the <code>ggfortify</code> package works well.</p>
@@ -290,6 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="distributions_in_r_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p><strong>Exercise:</strong> Plot the PDF and CDF for a normal random variable with mean 6 and standard deviation 2.</p>
 </section>
 </section>
 

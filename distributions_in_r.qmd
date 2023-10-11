@@ -89,6 +89,7 @@ rbinom(n = 10, size = 10, prob = 0.5)
 ```
 
 
+**Exercise:** Find the probability of getting exactly 3 heads out of 10 tosses of a coin where the probability of landing heads is 0.4.  Find the probability of getting 3 or fewer heads out of 10 tosses of a coin where the probability of landing heads is 0.4.  Find the number of heads you need to get in order to have a probability of 0.05 or less of getting that many heads out of 10 tosses of a coin where the probability of landing heads is 0.4.  Simulate 10 tosses of a coin where the probability of landing heads is 0.4.
 
 ### Plotting Binomial Distributions
 
@@ -131,7 +132,7 @@ ggplot(aes(x = factor(heads), y = prob, fill = Heads)) +
        y = "probability") 
 ```
 
-
+**Exercise:** Plot the PMF and CDF of a binomial distribution with 10 trials and a probability of success of 0.4. 
 
 ## Working with Normal Distributions
 
@@ -178,6 +179,8 @@ rnorm(n = 10, mean = 0, sd = 1)
 ```
 
 Note that for continuous distributions like normal distributions, it doesn't make sense to compute probabilities of the form $P(X = x)$.  Instead, we compute probabilities of the form $P(X \leq x)$,  $P(X \geq x)$, or even $P(a \leq X \leq b)$. Thus, the `dnorm` function is not used as often as the `pnorm` function when working with normal distributions. 
+
+**Exercise:** Find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1.  Find the value you need to get in order to have a probability of 0.05 or less of getting that value from a normal distribution with mean 0 and standard deviation 1.  Simulate 10 values from a normal distribution with mean 0 and standard deviation 1.
 
 ### Plotting Normal Distributions
 
@@ -227,4 +230,4 @@ annotate(geom="text",x=1.5,y=0.0,label="z=1.2",size=6) +
   annotate(geom="text",x=0.3,y=0.15,label="area=?",size=6) + theme_minimal(base_size = 22) 
 ```
 
-
+**Exercise:** Plot the PDF and CDF for a normal random variable with mean 6 and standard deviation 2.
