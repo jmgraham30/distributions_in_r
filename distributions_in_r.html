@@ -69,6 +69,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="distributions_in_r_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="distributions_in_r_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -101,95 +103,204 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Recall that each distribution implemented in R has four functions associated with it. These are:</p>
+<ul>
+<li><p><code>d</code> - PMF or PDF</p></li>
+<li><p><code>p</code> - cumulative distribution function (CDF)</p></li>
+<li><p><code>q</code> - quantile function, inverse of CDF</p></li>
+<li><p><code>r</code> - random number generation</p></li>
+</ul>
+<p>In this notebook, we will examine these functions and some of their applications in R for the binomial and normal families of distributions. We will also look at some of the plotting functions that are available for the various distributions.</p>
+</section>
 <section id="working-with-binomial-distributions" class="level2">
 <h2 class="anchored" data-anchor-id="working-with-binomial-distributions">Working with Binomial Distributions</h2>
+<p>For the binomial family of distributions<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, the four functions are:</p>
+<ul>
+<li><p><code>dbinom</code> - PMF</p></li>
+<li><p><code>pbinom</code> - cumulative distribution function (CDF)</p></li>
+<li><p><code>qbinom</code> - quantile function, inverse of CDF</p></li>
+<li><p><code>rbinom</code> - random number generation</p></li>
+</ul>
+<p>For a binomial distribution, we need to specify two parameters:</p>
+<ul>
+<li><p><code>size</code> - the number of trials</p></li>
+<li><p><code>prob</code> - the probability of success on each trial</p></li>
+</ul>
+<p>For example, suppose we want to find the probability of getting exactly 2 heads out of 10 tosses of a fair coin. We can use the <code>dbinom</code> function to do this. The first argument is the number of heads, the second is the number of trials, and the third is the probability of success on each trial.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotDist</span>(<span class="st">"binom"</span>,<span class="at">params =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>), <span class="at">kind =</span> <span class="st">"density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">2</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04394531</code></pre>
 </div>
 </div>
+<p>We can also use the <code>pbinom</code> function to find the probability of getting 2 or fewer heads out of 10 tosses of a fair coin. The first argument is the number of heads, the second is the number of trials, and the third is the probability of success on each trial.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotDist</span>(<span class="st">"binom"</span>,<span class="at">params =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>), <span class="at">kind =</span> <span class="st">"h"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="at">q =</span> <span class="dv">2</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0546875</code></pre>
 </div>
 </div>
+<p>We can also use the <code>qbinom</code> function to find the number of heads we need to get in order to have a probability of 0.05 or less of getting that many heads out of 10 tosses of a fair coin. The first argument is the probability, the second is the number of trials, and the third is the probability of success on each trial.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotDist</span>(<span class="st">"binom"</span>,<span class="at">params =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>), <span class="at">kind =</span> <span class="st">"cdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbinom</span>(<span class="at">p =</span> <span class="fl">0.05</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
 </div>
 </div>
+<p>Finally, we can use the <code>rbinom</code> function to simulate 10 tosses of a fair coin. The first argument is the number of trials, the second is the probability of success on each trial, and the third is the number of simulations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">heads =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">prob =</span> <span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Heads =</span> <span class="fu">ifelse</span>(heads <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"2"</span>, <span class="st">"other"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(heads), <span class="at">y =</span> prob, <span class="at">fill =</span> Heads)) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(prob,<span class="dv">2</span>), <span class="at">y =</span> prob <span class="sc">+</span> <span class="fl">0.01</span>),</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>),</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="dv">0</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_colorblind</span>() <span class="sc">+</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Probability of X = 2 heads out of ten."</span>,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"b(10, .5)"</span>,</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Numer of heads out of ten tosses (x)"</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"probability"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 4 6 7 4 5 7 6 6 4 6</code></pre>
 </div>
 </div>
-</section>
-<section id="working-with-normal-distributions" class="level2">
-<h2 class="anchored" data-anchor-id="working-with-normal-distributions">Working with Normal Distributions</h2>
+<section id="plotting-binomial-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="plotting-binomial-distributions">Plotting Binomial Distributions</h3>
+<p>The <code>plotDist</code> function from the <code>mosaic</code> package can be used to plot the PMF and CDF of a binomial distribution. The first argument is the name of the distribution, the second is a list of parameters, and the third is the kind of plot to produce. The default is a PMF plot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdistribution</span>(dnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotDist</span>(<span class="st">"binom"</span>,<span class="at">params =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>), <span class="at">kind =</span> <span class="st">"density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="distributions_in_r_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Or, as a histogram:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdistribution</span>(pnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotDist</span>(<span class="st">"binom"</span>,<span class="at">params =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>), <span class="at">kind =</span> <span class="st">"h"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="distributions_in_r_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Here is the corresponding CDF:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdistribution</span>(dnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">2.5</span>, <span class="at">sd =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">'#E69F00'</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdistribution</span>(dnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">2.5</span>, <span class="at">sd =</span> <span class="fl">3.0</span>, <span class="at">colour =</span> <span class="st">'#009E73'</span>, <span class="at">p =</span> p)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdistribution</span>(dnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">0.0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">colour =</span> <span class="st">'#CC79A7'</span>, <span class="at">p =</span> p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotDist</span>(<span class="st">"binom"</span>,<span class="at">params =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>), <span class="at">kind =</span> <span class="st">"cdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="distributions_in_r_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>We can also use the <code>ggplot</code> function to plot the PMF of a binomial distribution. The first argument is the data frame, the second is the mapping, and the third is the type of plot. The <code>geom_col</code> function is used to create a bar plot. The <code>geom_text</code> function is used to add the probabilities to the plot. The <code>position_dodge</code> function is used to move the text to the center of the bars. The <code>scale_fill_colorblind</code> function is used to change the colors of the bars. The <code>labs</code> function is used to add a title, subtitle, and axis labels.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdistribution</span>(pnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">2.5</span>, <span class="at">sd =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">'#E69F00'</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdistribution</span>(pnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">2.5</span>, <span class="at">sd =</span> <span class="fl">3.0</span>, <span class="at">colour =</span> <span class="st">'#009E73'</span>, <span class="at">p =</span> p)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdistribution</span>(pnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">0.0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">colour =</span> <span class="st">'#CC79A7'</span>, <span class="at">p =</span> p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">heads =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">prob =</span> <span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Heads =</span> <span class="fu">ifelse</span>(heads <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"2"</span>, <span class="st">"other"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(heads), <span class="at">y =</span> prob, <span class="at">fill =</span> Heads)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(prob,<span class="dv">2</span>), <span class="at">y =</span> prob <span class="sc">+</span> <span class="fl">0.01</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="dv">0</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_colorblind</span>() <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Probability of X = 2 heads out of ten."</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"b(10, .5)"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Numer of heads out of ten tosses (x)"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"probability"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="distributions_in_r_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+</section>
+<section id="working-with-normal-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-normal-distributions">Working with Normal Distributions</h2>
+<p>For the normal family of distributions<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, the four functions are:</p>
+<ul>
+<li><p><code>dnorm</code> - density</p></li>
+<li><p><code>pnorm</code> - cumulative distribution function</p></li>
+<li><p><code>qnorm</code> - quantile function, inverse of CDF</p></li>
+<li><p><code>rnorm</code> - random number generation</p></li>
+</ul>
+<p>For a normal distribution, we need to specify two parameters:</p>
+<ul>
+<li><p><code>mean</code> - the mean of the distribution</p></li>
+<li><p><code>sd</code> - the standard deviation of the distribution</p></li>
+</ul>
+<p>For example, suppose we want to find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1. We can use the <code>pnorm</code> function to do this. The first argument is the upper bound, the second is the mean, and the third is the standard deviation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dnorm_limit_mid <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    y[x <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">|</span> x <span class="sc">&gt;=</span> <span class="fl">1.2</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(y)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)), <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm_limit_mid, <span class="at">geom =</span> <span class="st">"area"</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="fl">0.5</span>,<span class="at">linetype=</span><span class="st">"dashed"</span>,<span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">1.2</span>,<span class="at">linetype=</span><span class="st">"dashed"</span>,<span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span>   <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>,<span class="at">x=</span><span class="sc">-</span><span class="fl">0.8</span>,<span class="at">y=</span><span class="fl">0.0</span>,<span class="at">label=</span><span class="st">"z=-0.5"</span>,<span class="at">size=</span><span class="dv">6</span>) <span class="sc">+</span> </span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>,<span class="at">x=</span><span class="fl">1.5</span>,<span class="at">y=</span><span class="fl">0.0</span>,<span class="at">label=</span><span class="st">"z=1.2"</span>,<span class="at">size=</span><span class="dv">6</span>) <span class="sc">+</span> </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>,<span class="at">x=</span><span class="fl">0.3</span>,<span class="at">y=</span><span class="fl">0.15</span>,<span class="at">label=</span><span class="st">"area=?"</span>,<span class="at">size=</span><span class="dv">6</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">22</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> <span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8413447</code></pre>
+</div>
+</div>
+<p>We can also use the <code>qnorm</code> function to find the value we need to get in order to have a probability of 0.05 or less of getting that value from a normal distribution with mean 0 and standard deviation 1. The first argument is the probability, the second is the mean, and the third is the standard deviation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.05</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.644854</code></pre>
+</div>
+</div>
+<p>Finally, we can use the <code>rnorm</code> function to simulate 10 values from a normal distribution with mean 0 and standard deviation 1. The first argument is the number of simulations, the second is the mean, and the third is the standard deviation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0.4661502  0.7174736  2.1531378 -0.7464296  0.7781588 -0.1194745
+ [7]  2.5906963 -0.4213402  0.3992962  1.3184012</code></pre>
+</div>
+</div>
+<p>Note that for continuous distributions like normal distributions, it doesn’t make sense to compute probabilities of the form <span class="math inline">\(P(X = x)\)</span>. Instead, we compute probabilities of the form <span class="math inline">\(P(X \leq x)\)</span>, <span class="math inline">\(P(X \geq x)\)</span>, or even <span class="math inline">\(P(a \leq X \leq b)\)</span>. Thus, the <code>dnorm</code> function is not used as often as the <code>pnorm</code> function when working with normal distributions.</p>
+<section id="plotting-normal-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="plotting-normal-distributions">Plotting Normal Distributions</h3>
+<p>For plotting continuous distributions like normal distribution, the <code>ggdistribution</code> from the <code>ggfortify</code> package works well.</p>
+<p>For example, here is the PDF of a normal distribution with mean 0 and standard deviation 1:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdistribution</span>(dnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here is the CDF of a normal distribution with mean 0 and standard deviation 1:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdistribution</span>(pnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The <code>ggdistribution</code> function can also be used to plot multiple distributions on the same plot. The <code>p</code> argument is used to add distributions to an existing plot. The <code>colour</code> argument is used to change the color of the distribution. The <code>geom_line</code> function is used to add a line to the plot. The <code>geom_ribbon</code> function is used to add a shaded region to the plot. The <code>alpha</code> argument is used to change the transparency of the shaded region. The <code>fill</code> argument is used to change the color of the shaded region.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdistribution</span>(dnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">2.5</span>, <span class="at">sd =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">'#E69F00'</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdistribution</span>(dnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">2.5</span>, <span class="at">sd =</span> <span class="fl">3.0</span>, <span class="at">colour =</span> <span class="st">'#009E73'</span>, <span class="at">p =</span> p)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdistribution</span>(dnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">0.0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">colour =</span> <span class="st">'#CC79A7'</span>, <span class="at">p =</span> p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here is a comparison of the corresponding CDFs:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdistribution</span>(pnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">2.5</span>, <span class="at">sd =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">'#E69F00'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdistribution</span>(pnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">2.5</span>, <span class="at">sd =</span> <span class="fl">3.0</span>, <span class="at">colour =</span> <span class="st">'#009E73'</span>, <span class="at">p =</span> p)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdistribution</span>(pnorm, <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="fl">0.1</span>), <span class="at">mean =</span> <span class="fl">0.0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">colour =</span> <span class="st">'#CC79A7'</span>, <span class="at">p =</span> p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Finally, we can use <code>ggplot2</code> to plot the area under the PDF for normal distributions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dnorm_limit_mid <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    y[x <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">|</span> x <span class="sc">&gt;=</span> <span class="fl">1.2</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(y)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)), <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm_limit_mid, <span class="at">geom =</span> <span class="st">"area"</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="fl">0.5</span>,<span class="at">linetype=</span><span class="st">"dashed"</span>,<span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">1.2</span>,<span class="at">linetype=</span><span class="st">"dashed"</span>,<span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span>   <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>,<span class="at">x=</span><span class="sc">-</span><span class="fl">0.8</span>,<span class="at">y=</span><span class="fl">0.0</span>,<span class="at">label=</span><span class="st">"z=-0.5"</span>,<span class="at">size=</span><span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>,<span class="at">x=</span><span class="fl">1.5</span>,<span class="at">y=</span><span class="fl">0.0</span>,<span class="at">label=</span><span class="st">"z=1.2"</span>,<span class="at">size=</span><span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>,<span class="at">x=</span><span class="fl">0.3</span>,<span class="at">y=</span><span class="fl">0.15</span>,<span class="at">label=</span><span class="st">"area=?"</span>,<span class="at">size=</span><span class="dv">6</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">22</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="distributions_in_r_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
+</section>
 
-</main>
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>To read the documentation for the implementation of the binomial distribution in R, type <code>?Binomial</code> in the console.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>To read the documentation for the implementation of the normal distribution in R, type <code>?Normal</code> in the console.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -21,25 +21,97 @@ library(kableExtra)
 theme_set(theme_minimal(base_size = 12))
 ```
 
+
+## Overview
+
+Recall that each distribution implemented in R has four functions associated with it.  These are:
+
+* `d` - PMF or PDF
+
+* `p` - cumulative distribution function (CDF)
+
+* `q` - quantile function, inverse of CDF
+
+* `r` - random number generation
+
+In this notebook, we will examine these functions and some of their applications in R for the binomial  and normal families of distributions.  We will also look at some of the plotting functions that are available for the various distributions.
+
 ## Working with Binomial Distributions
+
+For the binomial family of distributions[^1], the four functions are:
+
+* `dbinom` - PMF
+
+* `pbinom` - cumulative distribution function (CDF)
+
+* `qbinom` - quantile function, inverse of CDF
+
+* `rbinom` - random number generation
+
+For a binomial distribution, we need to specify two parameters:
+
+* `size` - the number of trials
+
+* `prob` - the probability of success on each trial
+
+[^1]: To read the documentation for the implementation of the binomial distribution in R, type `?Binomial` in the console.
+
+
+For example, suppose we want to find the probability of getting exactly 2 heads out of 10 tosses of a fair coin.  We can use the `dbinom` function to do this.  The first argument is the number of heads, the second is the number of trials, and the third is the probability of success on each trial.
+
+```{r}
+
+dbinom(x = 2, size = 10, prob = 0.5)
+```
+
+We can also use the `pbinom` function to find the probability of getting 2 or fewer heads out of 10 tosses of a fair coin.  The first argument is the number of heads, the second is the number of trials, and the third is the probability of success on each trial.
+
+```{r}
+
+pbinom(q = 2, size = 10, prob = 0.5)
+
+```
+
+We can also use the `qbinom` function to find the number of heads we need to get in order to have a probability of 0.05 or less of getting that many heads out of 10 tosses of a fair coin.  The first argument is the probability, the second is the number of trials, and the third is the probability of success on each trial.
+
+```{r}
+
+qbinom(p = 0.05, size = 10, prob = 0.5)
+
+```
+
+Finally, we can use the `rbinom` function to simulate 10 tosses of a fair coin.  The first argument is the number of trials, the second is the probability of success on each trial, and the third is the number of simulations.
+
+```{r}
+
+rbinom(n = 10, size = 10, prob = 0.5)
+
+```
+
+
+
+### Plotting Binomial Distributions
+
+The `plotDist` function from the `mosaic` package can be used to plot the PMF and CDF of a binomial distribution.  The first argument is the name of the distribution, the second is a list of parameters, and the third is the kind of plot to produce.  The default is a PMF plot.
+
 
 ```{r}
 plotDist("binom",params = list(size = 10, prob = 0.5), kind = "density")
 ```
 
-
+Or, as a histogram:
 
 ```{r}
 plotDist("binom",params = list(size = 10, prob = 0.5), kind = "h")
 ```
 
-
+Here is the corresponding CDF:
 
 ```{r}
 plotDist("binom",params = list(size = 10, prob = 0.5), kind = "cdf")
 ```
 
-
+We can also use the `ggplot` function to plot the PMF of a binomial distribution.  The first argument is the data frame, the second is the mapping, and the third is the type of plot.  The `geom_col` function is used to create a bar plot.  The `geom_text` function is used to add the probabilities to the plot.  The `position_dodge` function is used to move the text to the center of the bars.  The `scale_fill_colorblind` function is used to change the colors of the bars.  The `labs` function is used to add a title, subtitle, and axis labels.
 
 ```{r}
 data.frame(heads = 0:10, prob = dbinom(x = 0:10, size = 10, prob = 0.5)) %>%
@@ -63,18 +135,68 @@ ggplot(aes(x = factor(heads), y = prob, fill = Heads)) +
 
 ## Working with Normal Distributions
 
+For the normal family of distributions[^2], the four functions are:
+
+* `dnorm` - density
+
+* `pnorm` - cumulative distribution function
+
+* `qnorm` - quantile function, inverse of CDF
+
+* `rnorm` - random number generation
+
+For a normal distribution, we need to specify two parameters:
+
+* `mean` - the mean of the distribution
+
+* `sd` - the standard deviation of the distribution
+
+[^2]: To read the documentation for the implementation of the normal distribution in R, type `?Normal` in the console.
+
+For example, suppose we want to find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1.  We can use the `pnorm` function to do this.  The first argument is the upper bound, the second is the mean, and the third is the standard deviation.
+
+```{r}
+
+pnorm(q = 1, mean = 0, sd = 1)
+
+```
+
+We can also use the `qnorm` function to find the value we need to get in order to have a probability of 0.05 or less of getting that value from a normal distribution with mean 0 and standard deviation 1.  The first argument is the probability, the second is the mean, and the third is the standard deviation.
+
+```{r}
+
+qnorm(p = 0.05, mean = 0, sd = 1)
+
+```
+
+Finally, we can use the `rnorm` function to simulate 10 values from a normal distribution with mean 0 and standard deviation 1.  The first argument is the number of simulations, the second is the mean, and the third is the standard deviation.
+
+```{r}
+
+rnorm(n = 10, mean = 0, sd = 1)
+
+```
+
+Note that for continuous distributions like normal distributions, it doesn't make sense to compute probabilities of the form $P(X = x)$.  Instead, we compute probabilities of the form $P(X \leq x)$,  $P(X \geq x)$, or even $P(a \leq X \leq b)$. Thus, the `dnorm` function is not used as often as the `pnorm` function when working with normal distributions. 
+
+### Plotting Normal Distributions
+
+For plotting continuous distributions like normal distribution, the `ggdistribution` from the `ggfortify` package works well. 
+
+For example, here is the PDF of a normal distribution with mean 0 and standard deviation 1:
+
 
 ```{r}
 ggdistribution(dnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
 ```
 
-
+Here is the CDF of a normal distribution with mean 0 and standard deviation 1:
 
 ```{r}
 ggdistribution(pnorm, seq(-3, 3, 0.1), mean = 0, sd = 1)
 ```
 
-
+The `ggdistribution` function can also be used to plot multiple distributions on the same plot.  The `p` argument is used to add distributions to an existing plot.  The `colour` argument is used to change the color of the distribution.  The `geom_line` function is used to add a line to the plot.  The `geom_ribbon` function is used to add a shaded region to the plot.  The `alpha` argument is used to change the transparency of the shaded region.  The `fill` argument is used to change the color of the shaded region.
 
 ```{r}
 p <- ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 0.5, colour = '#E69F00')
@@ -82,7 +204,7 @@ p <- ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 3.0, colour = '#009
 ggdistribution(dnorm, seq(-5, 7, 0.1), mean = 0.0, sd = 1, colour = '#CC79A7', p = p)
 ```
 
-
+Here is a comparison of the corresponding CDFs:
 
 ```{r}
 p <- ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 0.5, colour = '#E69F00')
@@ -90,7 +212,7 @@ p <- ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 2.5, sd = 3.0, colour = '#009
 ggdistribution(pnorm, seq(-5, 7, 0.1), mean = 0.0, sd = 1, colour = '#CC79A7', p = p)
 ```
 
-
+Finally, we can use `ggplot2` to plot the area under the PDF for normal distributions:
 
 ```{r}
 dnorm_limit_mid <- function(x) {
