@@ -153,7 +153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 4 8 6 5 6 4 5 6 6 6</code></pre>
+<pre><code> [1] 4 3 7 4 7 3 5 8 7 5</code></pre>
 </div>
 </div>
 <p><strong>Exercise:</strong> Find the probability of getting exactly 3 heads out of 10 tosses of a coin where the probability of landing heads is 0.4. Find the probability of getting 3 or fewer heads out of 10 tosses of a coin where the probability of landing heads is 0.4. Find the number of heads you need to get in order to have a probability of 0.05 or less of getting that many heads out of 10 tosses of a coin where the probability of landing heads is 0.4. Simulate 10 tosses of a coin where the probability of landing heads is 0.4.</p>
@@ -218,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><code>mean</code> - the mean of the distribution</p></li>
 <li><p><code>sd</code> - the standard deviation of the distribution</p></li>
 </ul>
-<p>For example, suppose we want to find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1. We can use the <code>pnorm</code> function to do this. The first argument is the upper bound, the second is the mean, and the third is the standard deviation.</p>
+<p>For example, suppose we want to find the probability of getting a value less or equal to 1 from a normal distribution with mean 0 and standard deviation 1. We can use the <code>pnorm</code> function to do this. The first argument is the upper bound, the second is the mean, and the third is the standard deviation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> <span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -236,12 +236,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  1.08615082 -0.02977806  0.94445186 -1.55137900 -0.52961724  0.13247976
- [7] -0.05945010 -0.01464395 -0.38006822 -0.97342847</code></pre>
+<pre><code> [1]  0.52722116 -0.19745195  0.64838942 -0.08762798  0.07456747 -1.43227909
+ [7] -0.62792700  0.97375016 -0.62552475 -0.83377840</code></pre>
 </div>
 </div>
 <p>Note that for continuous distributions like normal distributions, it doesn’t make sense to compute probabilities of the form <span class="math inline">\(P(X = x)\)</span>. Instead, we compute probabilities of the form <span class="math inline">\(P(X \leq x)\)</span>, <span class="math inline">\(P(X \geq x)\)</span>, or even <span class="math inline">\(P(a \leq X \leq b)\)</span>. Thus, the <code>dnorm</code> function is not used as often as the <code>pnorm</code> function when working with normal distributions.</p>
-<p><strong>Exercise:</strong> Find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1. Find the value you need to get in order to have a probability of 0.05 or less of getting that value from a normal distribution with mean 0 and standard deviation 1. Simulate 10 values from a normal distribution with mean 0 and standard deviation 1.</p>
+<p><strong>Exercise:</strong> Find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1. Find the value you need to get in order to have a probability of 0.05 or less of getting that value from a normal distribution with mean 2 and standard deviation 0.5. Simulate 10 values from a normal distribution with mean -3 and standard deviation 1.7.</p>
 <section id="plotting-normal-distributions" class="level3">
 <h3 class="anchored" data-anchor-id="plotting-normal-distributions">Plotting Normal Distributions</h3>
 <p>For plotting continuous distributions like normal distribution, the <code>ggdistribution</code> from the <code>ggfortify</code> package works well.</p>

@@ -100,6 +100,7 @@ The `plotDist` function from the `mosaic` package can be used to plot the PMF an
 plotDist("binom",params = list(size = 10, prob = 0.5), kind = "density")
 ```
 
+
 Or, as a histogram:
 
 ```{r}
@@ -154,7 +155,7 @@ For a normal distribution, we need to specify two parameters:
 
 [^2]: To read the documentation for the implementation of the normal distribution in R, type `?Normal` in the console.
 
-For example, suppose we want to find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1.  We can use the `pnorm` function to do this.  The first argument is the upper bound, the second is the mean, and the third is the standard deviation.
+For example, suppose we want to find the probability of getting a value less or equal to 1 from a normal distribution with mean 0 and standard deviation 1.  We can use the `pnorm` function to do this.  The first argument is the upper bound, the second is the mean, and the third is the standard deviation.
 
 ```{r}
 
@@ -180,7 +181,7 @@ rnorm(n = 10, mean = 0, sd = 1)
 
 Note that for continuous distributions like normal distributions, it doesn't make sense to compute probabilities of the form $P(X = x)$.  Instead, we compute probabilities of the form $P(X \leq x)$,  $P(X \geq x)$, or even $P(a \leq X \leq b)$. Thus, the `dnorm` function is not used as often as the `pnorm` function when working with normal distributions. 
 
-**Exercise:** Find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1.  Find the value you need to get in order to have a probability of 0.05 or less of getting that value from a normal distribution with mean 0 and standard deviation 1.  Simulate 10 values from a normal distribution with mean 0 and standard deviation 1.
+**Exercise:** Find the probability of getting a value between 0 and 1 from a normal distribution with mean 0 and standard deviation 1.  Find the value you need to get in order to have a probability of 0.05 or less of getting that value from a normal distribution with mean 2 and standard deviation 0.5.  Simulate 10 values from a normal distribution with mean -3 and standard deviation 1.7.
 
 ### Plotting Normal Distributions
 
